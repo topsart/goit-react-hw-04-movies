@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
+import styles from './Cast.module.css';
 
 class Cast extends Component {
 	state = {
@@ -17,15 +18,18 @@ class Cast extends Component {
 	render() {
 		return (
 			<div>
-				<ul>
+				<ul className={styles.CastGallery}>
 					{this.state.actors.map(actor => (
-						<li key={actor.id}>
+						<li className={styles.CastGalleryItem} key={actor.id}>
 							<img
+								className={styles.CastGalleryItemImage}
 								src={`https://image.tmdb.org/t/p/w500/${actor.profile_path}`}
 								alt=""
 							/>
-							<p>{actor.name}</p>
-							<p>{actor.character}</p>
+							<p className={styles.CastGalleryItemActorName}>{actor.name}</p>
+							<p className={styles.CastGalleryItemActorRole}>
+								{actor.character}
+							</p>
 						</li>
 					))}
 				</ul>

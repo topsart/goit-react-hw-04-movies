@@ -1,0 +1,41 @@
+.MovieGallery {
+	display: grid;
+	max-width: calc(100vw - 48px);
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	grid-gap: 16px;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.MovieGalleryTitle {
+	font-size: 50px;
+	margin-bottom: 25px;
+	text-shadow: 4px 3px 5px rgba(150, 150, 150, 1);
+}
+
+.MovieGalleryItem {
+	margin-bottom: 15px;
+}
+
+.MovieGalleryItemImage {
+	object-fit: cover;
+	transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+	border-radius: 5px;
+	margin-bottom: 8px;
+	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+		0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+
+.MovieGalleryItemImage:hover {
+	transform: scale(1.03);
+	cursor: pointer;
+}
+
+.MovieGalleryItemTitle {
+	font-size: 20px;
+	font-weight: 500;
+	text-shadow: 4px 3px 5px rgba(150, 150, 150, 1);
+}

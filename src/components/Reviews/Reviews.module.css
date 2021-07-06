@@ -1,0 +1,17 @@
+.ReviewsList {
+}
+
+.ReviewsItem {
+	margin-bottom: 30px;
+}
+
+.ReviewsTitle {
+	font-size: 22px;
+	margin-bottom: 10px;
+}
+
+.ReviewsInfo {
+	line-height: 1.5;
+	text-align: left;
+	text-indent: 2em;
+}
