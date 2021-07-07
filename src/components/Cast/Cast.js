@@ -1,35 +1,43 @@
-import axios from 'axios';
 import React, { Component } from 'react';
 import styles from './Cast.module.css';
+import { fetchCast } from '../../services/movies-api';
+import defaultCastImg from '../../assets/img/defaultCastImg.jpg';
+import { BASE_IMAGE_URL } from '../../links';
 
 class Cast extends Component {
 	state = {
 		actors: [],
+		error: null,
 	};
 
 	async componentDidMount() {
+		this.setState({ error: null });
 		const { movieId } = this.props.match.params;
-		const response = await axios.get(
-			`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=0ec59de6c34a89161ac01d0312b43ce4`,
-		);
-		this.setState({ actors: response.data.cast });
+
+		fetchCast(movieId)
+			.then(actors => {
+				this.setState({ actors });
+			})
+			.catch(error => this.setState({ error }));
 	}
 
 	render() {
 		return (
 			<div>
 				<ul className={styles.CastGallery}>
-					{this.state.actors.map(actor => (
-						<li className={styles.CastGalleryItem} key={actor.id}>
+					{this.state.actors.map(({ id, profile_path, name, character }) => (
+						<li className={styles.CastGalleryItem} key={id}>
 							<img
 								className={styles.CastGalleryItemImage}
-								src={`https://image.tmdb.org/t/p/w500/${actor.profile_path}`}
+								src={
+									profile_path
+										? `${BASE_IMAGE_URL}/w500/${profile_path}`
+										: defaultCastImg
+								}
 								alt=""
 							/>
-							<p className={styles.CastGalleryItemActorName}>{actor.name}</p>
-							<p className={styles.CastGalleryItemActorRole}>
-								{actor.character}
-							</p>
+							<p className={styles.CastGalleryItemActorName}>{name}</p>
+							<p className={styles.CastGalleryItemActorRole}>{character}</p>
 						</li>
 					))}
 				</ul>

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { NavLink, Route } from 'react-router-dom';
-import axios from 'axios';
 import Cast from '../../components/Cast/Cast';
 import Reviews from '../../components/Reviews/Reviews';
 import styles from './MovieDetailsPage.module.css';
+import { fetchMovieDetails } from '../../services/movies-api';
+import defaultMovieImg from '../../assets/img/no-image-large.jpg';
+import { BASE_IMAGE_URL } from '../../links';
 
 class MovieDetailsPage extends Component {
 	state = {
@@ -12,54 +14,60 @@ class MovieDetailsPage extends Component {
 		overview: '',
 		genres: [],
 		poster_path: '',
+		error: null,
 	};
 
 	async componentDidMount() {
+		this.setState({ error: null });
 		const { movieId } = this.props.match.params;
-		const response = await axios.get(
-			`https://api.themoviedb.org/3/movie/${movieId}?api_key=0ec59de6c34a89161ac01d0312b43ce4`,
-		);
 
-		this.setState({ ...response.data });
+		fetchMovieDetails(movieId)
+			.then(movies => {
+				this.setState({ ...movies });
+			})
+			.catch(error => this.setState({ error }));
 	}
 
 	render() {
 		const { match } = this.props;
+		const { poster_path, title, vote_average, overview, genres } = this.state;
 
 		return (
 			<div className={styles.MovieDetailsPage}>
 				<div className={styles.MovieDetailsPageWrapper}>
 					<img
-						src={`https://image.tmdb.org/t/p/w500/${this.state.poster_path}`}
+						src={
+							poster_path
+								? `${BASE_IMAGE_URL}/w500/${poster_path}`
+								: defaultMovieImg
+						}
 						alt=""
 						className={styles.MovieDetailsPageWrapperImage}
 					/>
 					<div className={styles.MovieDetailsPageWrapperInfo}>
-						<h1 className={styles.MovieDetailsPageWrapperInfoTitle}>
-							{this.state.title}
-						</h1>
+						<h1 className={styles.MovieDetailsPageWrapperInfoTitle}>{title}</h1>
 						<h2 className={styles.MovieDetailsPageWrapperInfoPassTitle}>
 							User Score
 						</h2>
 						<p className={styles.MovieDetailsPageWrapperInfoPassTitleInfo}>
-							{this.state.vote_average}
+							{vote_average}
 						</p>
 						<h2 className={styles.MovieDetailsPageWrapperInfoPassTitle}>
 							Overview
 						</h2>
 						<p className={styles.MovieDetailsPageWrapperInfoPassTitleInfo}>
-							{this.state.overview}
+							{overview}
 						</p>
 						<h2 className={styles.MovieDetailsPageWrapperInfoPassTitle}>
 							Genres
 						</h2>
 						<ul>
-							{this.state.genres.map(genre => (
+							{genres.map(({ id, name }) => (
 								<li
-									key={genre.id}
+									key={id}
 									className={styles.MovieDetailsPageWrapperGenresInfo}
 								>
-									{genre.name}
+									{name}
 								</li>
 							))}
 						</ul>

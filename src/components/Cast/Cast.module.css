@@ -16,6 +16,7 @@
 
 .CastGalleryItemImage {
 	object-fit: cover;
+	height: 316.34px;
 	border-radius: 5px;
 	margin-bottom: 8px;
 	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
