@@ -21,8 +21,12 @@ const MoviePreview = ({ poster_path, original_title }) => {
 	);
 };
 
+MoviePreview.defaultProps = {
+	poster_path: '',
+};
+
 MoviePreview.propTypes = {
-	poster_path: PropTypes.string.isRequired,
+	poster_path: PropTypes.string,
 	original_title: PropTypes.string.isRequired,
 };
 

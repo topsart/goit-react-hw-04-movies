@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import NotFoundView from './views/NotFoundView';
 import Container from './components/Container/Container';
 import Navigation from './components/Navigation/Navigation';
@@ -29,7 +29,9 @@ const App = () => (
 					<Route path={routes.home} component={HomePage} exact />
 					<Route path={routes.movieDetails} component={MovieDetailsPage} />
 					<Route path={routes.movies} component={MoviesPage} />
-					<Route component={NotFoundView} />
+					<Route component={NotFoundView}>
+						<Redirect to="/" />
+					</Route>
 				</Switch>
 			</Suspense>
 		</Container>
